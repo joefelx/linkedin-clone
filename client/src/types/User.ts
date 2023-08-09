@@ -70,24 +70,23 @@ interface Language {
 }
 
 interface User {
-  isModified: any;
-  id: number;
+  id: string;
   name: string;
   email: string;
-  password: string;
-  followers?: Array<User>;
-  following?: Array<User>;
-  connections?: Array<User>;
-  headline?: string;
-  city?: string;
+  password?: string;
+  followers: Array<User>;
+  following: Array<User>;
+  connections: Array<User>;
+  headline: string;
+  city: string;
   profileImg?: string;
-  about?: string;
-  experience?: Array<Experience>;
-  education?: Array<Education>;
-  certifications?: Array<Certification>;
-  projects?: Array<Project>;
-  skills?: Array<string>;
-  languages?: Array<Language>;
+  about: string;
+  experience: Array<Experience>;
+  education: Array<Education>;
+  certifications: Array<Certification>;
+  projects: Array<Project>;
+  skills: Array<string>;
+  languages: Array<Language>;
 }
 
 export default User;

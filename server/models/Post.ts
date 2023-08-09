@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 import Post, { Media } from "../types/Post";
 
+interface Comment {
+  commenterId: string;
+  comment: string;
+}
+
 const postSchema = new mongoose.Schema<Post>({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -27,11 +32,11 @@ const postSchema = new mongoose.Schema<Post>({
       type: String,
     },
   ],
-  comments: [
-    {
-      type: String,
-    },
-  ],
+  comments: {
+    type: Array as any,
+    default: [],
+  },
+
   repost: [
     {
       type: String,

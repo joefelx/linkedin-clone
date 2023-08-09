@@ -41,7 +41,7 @@ const RootQuery = new GraphQLObjectType({
       type: UserType,
       args: {
         id: {
-          type: GraphQLID,
+          type: GraphQLString,
         },
       },
       resolve(parent, args) {
@@ -398,17 +398,20 @@ const mutation = new GraphQLObjectType({
       args: {
         postId: { type: GraphQLString },
         commenterId: { type: GraphQLString },
-        comment: { type: GraphQLString },
+        commentText: { type: GraphQLString },
       },
       async resolve(parent, args) {
-        await Post.findByIdAndUpdate(args.postId, {
+        const post = await Post.findById(args.postId);
+
+        await post?.updateOne({
           $push: {
             comments: {
               commenterId: args.commenterId,
-              comment: args.comment,
+              comment: args.commentText,
             },
           },
         });
+
         return await Post.findById(args.postId);
       },
     },

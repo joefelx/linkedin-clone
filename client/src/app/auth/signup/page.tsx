@@ -1,10 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useMutation } from "@apollo/client";
+import { SIGNUP } from "../../../mutations/userMutations";
 
 export default function SignUp() {
+  const name = useRef<HTMLInputElement>(null);
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+
   const [passwordShow, setPasswordShow] = useState(false);
+
+  // const [signUp, { data, loading, error }] = useMutation(SIGNUP);
+
+  // function SignUpUser() {
+  //   signUp({
+  //     variables: {
+  //       name: name.current?.value,
+  //       email: email.current?.value,
+  //       password: password.current?.value,
+  //     },
+  //   });
+  // }
+
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
+
   return (
     <div className="bg-secondaryWhite min-h-screen h-full w-full flex flex-col items-center">
       {/* header */}
@@ -73,6 +96,16 @@ export default function SignUp() {
         <div className="bg-white w-[25rem] p-5 rounded-md">
           {/* input */}
           <div className="mt-2">
+            <p className="text-gray text-sm font-semibold">Name</p>
+            <div className="border border-black rounded-md w-full h-9">
+              <input
+                type="text"
+                className="bg-transparent w-full h-full outline-none px-5"
+                ref={name}
+              />
+            </div>
+          </div>
+          <div className="mt-2">
             <p className="text-gray text-sm font-semibold">
               Email or phone number
             </p>
@@ -80,6 +113,7 @@ export default function SignUp() {
               <input
                 type="text"
                 className="bg-transparent w-full h-full outline-none px-5"
+                ref={email}
               />
             </div>
           </div>
@@ -92,6 +126,7 @@ export default function SignUp() {
               <input
                 type={`${passwordShow ? "text" : "password"}`}
                 className="bg-transparent w-full h-full outline-none px-5"
+                ref={password}
               />
               <p
                 className="text-linkedinBlue mx-2 cursor-pointer font-semibold"
@@ -103,7 +138,10 @@ export default function SignUp() {
           </div>
           {/* Button */}
           <div className="my-5">
-            <button className="w-full bg-linkedinBlue text-white font-semibold p-3 rounded-full">
+            <button
+              className="w-full bg-linkedinBlue text-white font-semibold p-3 rounded-full"
+              // onClick={SignUpUser}
+            >
               Agree & Join
             </button>
           </div>
