@@ -17,7 +17,7 @@ const ALL_USERS = gql`
 `;
 
 const USER = gql`
-  query user($id: String!) {
+  query User($id: String!) {
     user(id: $id) {
       name
       email

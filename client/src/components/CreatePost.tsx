@@ -1,11 +1,10 @@
 import { dummyUser } from "../data/dummyData";
-import User from "../types/User";
 import { HiPhotograph } from "react-icons/hi";
 import { PiVideoFill, PiArticleMediumLight } from "react-icons/pi";
 import { BsCalendarDateFill } from "react-icons/bs";
 
 function CreatePost() {
-  const user: User = dummyUser[0];
+  const user = dummyUser[0];
 
   let listStyling =
     "flex items-center text-sm text-gray font-bold cursor-pointer";
