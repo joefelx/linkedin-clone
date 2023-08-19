@@ -3,6 +3,7 @@ import { LOGIN, SIGNUP } from "../../mutations/userMutations";
 
 export function SignUpUser(name: String, email: String, password: String) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
+
   const [signUp, { data, loading, error }] = useMutation(SIGNUP, {
     variables: {
       name,
