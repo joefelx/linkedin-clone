@@ -7,10 +7,10 @@ import Apollo from "./apolloclient";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Linkedin",
-  description: "Linkedin Clone with Next and GraphQL",
-};
+// export const metadata: Metadata = {
+//   title: "Linkedin",
+//   description: "Linkedin Clone with Next and GraphQL",
+// };
 
 export default function RootLayout({
   children,

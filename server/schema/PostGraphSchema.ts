@@ -18,6 +18,9 @@ const MediaType = new GraphQLEnumType({
     DOC: {
       value: "document",
     },
+    NULL: {
+      value: "null",
+    },
   },
 });
 

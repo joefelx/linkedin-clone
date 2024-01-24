@@ -1,20 +1,31 @@
 "use client";
 
 import { LoginUser } from "@/app/(api)/FetchUser";
-import React, { useState, useRef } from "react";
+import checkUser from "@/utils/checkUser";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 function Login() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordShow, setPasswordShow] = useState(false);
 
   const { login, loading, data, error } = LoginUser(email, password);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    login(email, password);
-    window.localStorage.setItem("user", JSON.stringify(data.login));
-  }
+  const handleSubmit = () => {
+    login({ variables: { email, password } });
+
+    window.localStorage.setItem("user", JSON.stringify(data.login.user));
+    window.localStorage.setItem("token", JSON.stringify(data.login.token));
+  };
+
+  useEffect(() => {
+    const user = checkUser();
+    if (user) {
+      router.push("/");
+    }
+  }, [data]);
 
   return loading ? (
     "Loading"
@@ -36,7 +47,7 @@ function Login() {
             stroke="none"
             strokeWidth="1"
             fill="none"
-            fill-rule="evenodd"
+            fillRule="evenodd"
           >
             <path
               d="M19.479,0 L1.583,0 C0.727,0 0,0.677 0,1.511 L0,19.488 C0,20.323 0.477,21 1.333,21 L19.229,21 C20.086,21 21,20.323 21,19.488 L21,1.511 C21,0.677 20.336,0 19.479,0"
@@ -84,10 +95,7 @@ function Login() {
         </h1>
 
         {/* signup card */}
-        <form
-          className="bg-white w-[25rem] p-5 rounded-md"
-          onSubmit={handleSubmit}
-        >
+        <div className="bg-white w-[25rem] p-5 rounded-md">
           {/* input */}
           <div className="mt-2">
             <p className="text-gray text-sm font-semibold">
@@ -125,12 +133,12 @@ function Login() {
           <div className="my-5">
             <button
               className="w-full bg-linkedinBlue text-white font-semibold p-3 rounded-full"
-              type="submit"
+              onClick={handleSubmit}
             >
               Sign in
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

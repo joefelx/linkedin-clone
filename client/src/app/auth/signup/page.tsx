@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { SignUpUser } from "../../(api)/FetchUser";
+import checkUser from "@/utils/checkUser";
 
 export default function SignUp() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,12 +15,19 @@ export default function SignUp() {
 
   const { signUp, data, loading, error } = SignUpUser(name, email, password);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    signUp(name, email, password);
+  const handleSubmit = () => {
+    signUp({ variables: { name, email, password } });
 
-    window.localStorage.setItem("user", JSON.stringify(data.signUp));
-  }
+    window.localStorage.setItem("user", JSON.stringify(data.signUp.user));
+    window.localStorage.setItem("token", JSON.stringify(data.signUp.token));
+  };
+
+  useEffect(() => {
+    const user = checkUser();
+    if (user) {
+      router.push("/");
+    }
+  }, []);
 
   return (
     <>
@@ -39,9 +49,9 @@ export default function SignUp() {
               <g
                 className="inbug"
                 stroke="none"
-                stroke-width="1"
+                strokeWidth="1"
                 fill="none"
-                fill-rule="evenodd"
+                fillRule="evenodd"
               >
                 <path
                   d="M19.479,0 L1.583,0 C0.727,0 0,0.677 0,1.511 L0,19.488 C0,20.323 0.477,21 1.333,21 L19.229,21 C20.086,21 21,20.323 21,19.488 L21,1.511 C21,0.677 20.336,0 19.479,0"
@@ -88,10 +98,7 @@ export default function SignUp() {
               Make the most of your professional life
             </h1>
             {/* signup card */}
-            <form
-              className="bg-white w-[25rem] p-5 rounded-md"
-              onSubmit={handleSubmit}
-            >
+            <div className="bg-white w-[25rem] p-5 rounded-md">
               {/* input */}
               <div className="mt-2">
                 <p className="text-gray text-sm font-semibold">Name</p>
@@ -137,8 +144,8 @@ export default function SignUp() {
               {/* Button */}
               <div className="my-5">
                 <button
-                  type="submit"
                   className="w-full bg-linkedinBlue text-white font-semibold p-3 rounded-full"
+                  onClick={handleSubmit}
                 >
                   Agree & Join
                 </button>
@@ -152,7 +159,7 @@ export default function SignUp() {
                   </Link>
                 </p>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       )}

@@ -6,6 +6,7 @@ const ALLPOST = gql`
       id
       userId
       caption
+      containMedia
       media
       likes
       comments {
@@ -17,4 +18,14 @@ const ALLPOST = gql`
   }
 `;
 
-export { ALLPOST };
+const POST_USER = gql`
+  query User($id: String!) {
+    user(id: $id) {
+      name
+      headline
+      profileImg
+    }
+  }
+`;
+
+export { ALLPOST, POST_USER };

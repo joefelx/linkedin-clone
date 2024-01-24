@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { BsSearch } from "react-icons/bs";
+import Image from "next/image";
+import checkUser from "@/utils/checkUser";
 
 type activeType =
   | "home"
@@ -11,7 +12,9 @@ type activeType =
   | "profile";
 
 function Header() {
+  const user = checkUser();
   const [active, setActive] = useState<activeType>("home");
+
   return (
     <header className="w-full h-14 text-xs border-b border-borderLine bg-white flex justify-center items-center">
       <div className="w-full h-full px-16 flex justify-between items-center">
@@ -157,7 +160,7 @@ function Header() {
                 : "text-gray"
             }`}
           >
-            <img src="" alt="profile" />
+            <Image src={user?.profileImg} alt="profile" />
             me
           </li>
         </ul>

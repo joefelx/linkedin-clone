@@ -5,6 +5,7 @@ const SIGNUP = gql`
     signUp(name: $name, email: $email, password: $password) {
       token
       user {
+        id
         name
         email
         followers
@@ -23,6 +24,7 @@ const LOGIN = gql`
     login(email: $email, password: $password) {
       token
       user {
+        id
         name
         email
         followers

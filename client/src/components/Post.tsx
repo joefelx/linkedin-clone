@@ -1,16 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
+import { POST_USER } from "@/queries/postQueries";
 import User from "../types/User";
 import PostType from "../types/Post";
+import Comment from "./post/Comment";
 import { dummyPost, dummyUser } from "../data/dummyData";
+
 import { BsHandThumbsUp } from "react-icons/bs";
 import { BiRepost } from "react-icons/bi";
-
-import AvatarImg from "../assets/avatar.jpg";
 import { NextPage } from "next";
-import { ALL_USERS, USER } from "..//queries/userQueries";
 
 type AppProps = {
   post: PostType;
@@ -19,34 +19,13 @@ type AppProps = {
 const Post: NextPage<AppProps> = ({ post }) => {
   const [postUser, setPostUser] = useState<User>(dummyUser[0]);
 
-  const POST_USER = gql`
-    query User($id: String!) {
-      user(id: $id) {
-        name
-        headline
-        profileImg
-      }
-    }
-  `;
-
-  const { loading, error, data } = useQuery(POST_USER, {
+  const { loading, data, error } = useQuery(POST_USER, {
     variables: { id: post.userId },
   });
 
   useEffect(() => {
     setPostUser(data?.user);
   }, [loading]);
-
-  function userByComment(commenterId: string) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { loading, error, data } = useQuery(POST_USER, {
-      variables: { id: commenterId },
-    });
-
-    if (!loading) {
-      return data.user;
-    }
-  }
 
   return (
     <div className="bg-white h-auto min-h-full w-5/12 text-sm rounded-md my-2 border border-borderLine">
@@ -74,13 +53,17 @@ const Post: NextPage<AppProps> = ({ post }) => {
         <p>{post.caption}</p>
       </div>
       {/* post media */}
-      <div className="h-[45rem] flex items-center justify-center">
-        <img
-          className="h-full object-cover"
-          src={post.media[0]}
-          alt="postImg"
-        />
-      </div>
+
+      {post.containMedia && (
+        <div className="h-[45rem] w-full flex items-center justify-center relative">
+          <img
+            className="h-full object-contain"
+            src={post.media[0]}
+            alt="post"
+          />
+        </div>
+      )}
+
       {/* post like, comments, repos count */}
       <div className="mx-3 py-2 text-xs text-gray flex justify-between border-b border-borderLine">
         <section className="">
@@ -129,28 +112,9 @@ const Post: NextPage<AppProps> = ({ post }) => {
       </ul>
 
       <div className="p-5">
-        {post?.comments.map((c) => (
+        {post?.comments.map((c, index) => (
           // eslint-disable-next-line react/jsx-key
-          <div className=" bg-stone-300 rounded-md p-2">
-            <div className="flex items-center">
-              <div className="w-10 h-10 rounded-full overflow-hidden">
-                <img
-                  src={userByComment(c.commenterId)?.profileImg}
-                  alt="commenter image"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="ml-2">
-                <p className="text-sm font-bold">
-                  {userByComment(c.commenterId)?.name}
-                </p>
-                <p className="text-xs text-gray">
-                  {userByComment(c.commenterId)?.headline}
-                </p>
-              </div>
-            </div>
-            <div className="my-2">{c.comment}</div>
-          </div>
+          <Comment commenterId={c.commenterId} comment={c.comment} />
         ))}
       </div>
     </div>

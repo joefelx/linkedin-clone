@@ -1,4 +1,4 @@
-type Media = "image" | "video" | "document";
+type Media = "image" | "video" | "document" | "null";
 
 interface Comment {
   commenterId: string;
@@ -18,4 +18,4 @@ interface Post {
 }
 
 export default Post;
-export type { Media, Comment };
+export type { Media, Comment, Post };

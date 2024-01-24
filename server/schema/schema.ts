@@ -31,12 +31,14 @@ const AuthData = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
+    // Get all user
     users: {
       type: new GraphQLList(UserType),
       resolve(parent, args) {
         return User.find();
       },
     },
+    // Get particular user
     user: {
       type: UserType,
       args: {
@@ -48,12 +50,14 @@ const RootQuery = new GraphQLObjectType({
         return User.findById(args.id);
       },
     },
+    // Get all post
     posts: {
       type: new GraphQLList(PostType),
       resolve(parent, args) {
         return Post.find();
       },
     },
+    // Get all post of particular user
     postByUser: {
       type: new GraphQLList(PostType),
       args: {
