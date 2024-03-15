@@ -17,17 +17,15 @@ export default function SignUp() {
 
   const handleSubmit = () => {
     signUp({ variables: { name, email, password } });
-
-    window.localStorage.setItem("user", JSON.stringify(data.signUp.user));
-    window.localStorage.setItem("token", JSON.stringify(data.signUp.token));
   };
 
   useEffect(() => {
-    const user = checkUser();
-    if (user) {
+    if (data) {
+      window.localStorage.setItem("user", JSON.stringify(data.signUp.user));
+      window.localStorage.setItem("token", JSON.stringify(data.signUp.token));
       router.push("/");
     }
-  }, []);
+  }, [data]);
 
   return (
     <>
@@ -145,7 +143,7 @@ export default function SignUp() {
               <div className="my-5">
                 <button
                   className="w-full bg-linkedinBlue text-white font-semibold p-3 rounded-full"
-                  onClick={handleSubmit}
+                  onClick={() => handleSubmit()}
                 >
                   Agree & Join
                 </button>

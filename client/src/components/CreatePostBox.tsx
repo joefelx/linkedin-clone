@@ -1,10 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiPhotograph } from "react-icons/hi";
+import checkUser from "@/utils/checkUser";
+import { useMutation } from "@apollo/client";
+import { CREATE_POST } from "@/mutations/postMutations";
 
 const CreatePostBox = ({ close }) => {
   const [input, setInput] = useState("");
 
-  function handlePost() {}
+  const user = checkUser();
+
+  const [createPost, { data, loading, error }] = useMutation(CREATE_POST, {
+    variables: {
+      userId: user.id,
+      caption: input,
+      containMedia: false,
+      mediaType: "null",
+      media: [],
+    },
+  });
+
+  function handlePost() {
+    createPost()
+  }
+
+  useEffect(() => {
+    if (!loading) {
+      console.log(data);
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  }, [loading]);
 
   return (
     <div className="absolute h-full w-full flex items-center justify-center backdrop-blur-sm bg-white/30 z-10">

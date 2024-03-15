@@ -11,18 +11,16 @@ function Login() {
   const [password, setPassword] = useState("");
   const [passwordShow, setPasswordShow] = useState(false);
 
-  const { login, loading, data, error } = LoginUser(email, password);
+  const { login, data, loading, error } = LoginUser(email, password);
 
   const handleSubmit = () => {
     login({ variables: { email, password } });
-
-    window.localStorage.setItem("user", JSON.stringify(data.login.user));
-    window.localStorage.setItem("token", JSON.stringify(data.login.token));
   };
 
   useEffect(() => {
-    const user = checkUser();
-    if (user) {
+    if (data) {
+      window.localStorage.setItem("user", JSON.stringify(data.login.user));
+      window.localStorage.setItem("token", JSON.stringify(data.login.token));
       router.push("/");
     }
   }, [data]);
@@ -133,7 +131,7 @@ function Login() {
           <div className="my-5">
             <button
               className="w-full bg-linkedinBlue text-white font-semibold p-3 rounded-full"
-              onClick={handleSubmit}
+              onClick={() => handleSubmit()}
             >
               Sign in
             </button>

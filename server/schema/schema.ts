@@ -28,6 +28,7 @@ const AuthData = new GraphQLObjectType({
   }),
 });
 
+
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
@@ -419,6 +420,7 @@ const mutation = new GraphQLObjectType({
         return await Post.findById(args.postId);
       },
     },
+   
   },
 });
 

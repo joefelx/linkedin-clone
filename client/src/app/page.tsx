@@ -10,6 +10,7 @@ import CreatePostBox from "@/components/CreatePostBox";
 
 export default function Home() {
   let user = checkUser();
+  
   const router = useRouter();
   const [createPost, setCreatePost] = useState(false);
 
